@@ -25,29 +25,30 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnGuest, btnLogin, btnReset;
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
+//        if (auth.getCurrentUser() != null) {
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
+//        }
 
         // set the view now
-        setContentView(R.layout.activity_login);
 
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = new ProgressBar(LoginActivity.this);
         btnGuest = (Button) findViewById(R.id.btn_guest);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         btnGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
             }
         });
 
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
-                final String password = inputPassword.getText().toString();
+                String password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -85,6 +86,12 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (password.length() < 6) {
+                    inputPassword.setError(getString(R.string.minimum_password));
+                    return;
+                }
+
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
@@ -95,23 +102,20 @@ public class LoginActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.INVISIBLE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
-                                    if (password.length() < 6) {
-                                        inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
-                                    }
+
+                                    Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, Success.class);
-                                    startActivity(intent);
                                     finish();
+                                    Intent intent = new Intent(getApplicationContext(), SignProfileActivity.class);
+                                    startActivity(intent);
                                 }
                             }
                         });
-            }
-        });
+            }});
     }
 
 }
