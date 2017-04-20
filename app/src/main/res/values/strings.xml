@@ -69,4 +69,9 @@
     <string name="alumni_contact">Alumni Contact</string>
     <string name="profile_activity">Profile Activity</string>
     <string name="there_are_no_post_yet">There are no post yet.</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

@@ -6,6 +6,7 @@ package com.cyanalumnidev.cyanalumni;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 
 
@@ -35,6 +36,11 @@ public class ProfileActivity extends AppCompatActivity {
     public void expandableButton_contact(View view) {
         expandableContact = (ExpandableRelativeLayout) findViewById(R.id.layout_contact_expand);
         expandableContact.toggle(); // toggle expand and collapse
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
 
