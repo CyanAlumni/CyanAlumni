@@ -1,6 +1,7 @@
 package com.cyanalumnidev.cyanalumni;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,8 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ExpandableRelativeLayout expandableProfile, expandablePost, expandableContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +28,6 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +38,22 @@ public class Main2Activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+    public void expandableButton_profile(View view) {
+        expandableProfile = (ExpandableRelativeLayout) findViewById(R.id.layout_profile_expand);
+        expandableProfile.toggle(); // toggle expand and collapse
+    }
+
+    public void expandableButton_post(View view) {
+        expandablePost = (ExpandableRelativeLayout) findViewById(R.id.layout_post_expand);
+        expandablePost.toggle(); // toggle expand and collapse
+    }
+
+    public void expandableButton_contact(View view) {
+        expandableContact = (ExpandableRelativeLayout) findViewById(R.id.layout_contact_expand);
+        expandableContact.toggle(); // toggle expand and collapse
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -81,20 +93,13 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_profile) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_manage) {
+            startActivity(new Intent(Main2Activity.this, SignProfileActivity.class));
         } else if (id == R.id.nav_post_jobVacancy) {
-
-        } else if (id == R.id.nav_post_internship) {
-
-        } else if (id == R.id.nav_post_project) {
-
+            startActivity(new Intent(Main2Activity.this, PostActvity.class));
         } else if (id == R.id.nav_facebook) {
-
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/groups/379635565413475/"));
+            startActivity(browserIntent);
         } else if (id == R.id.nav_logout) {
             startActivity(new Intent(Main2Activity.this, MainActivity.class));
         }
